@@ -31,7 +31,7 @@ beforeEach(() => {
 
 
     // Logout
-    it('Logout test', () => {
+    it('Logout', () => {
         cy.visit('https://www.saucedemo.com/');
         cy.get('[data-test="username"]').type('standard_user'); 
         cy.get('[data-test="password"]').type('secret_sauce');
@@ -43,8 +43,8 @@ beforeEach(() => {
     })
 
 
-   // Sidebar menu functionality
-   it('Sidebar menu functionality test', () => {
+    // Sidebar menu functionality
+    it('Sidebar menu functionality', () => {
         cy.visit('https://www.saucedemo.com/');
         cy.get('[data-test="username"]').type('standard_user'); 
         cy.get('[data-test="password"]').type('secret_sauce');
@@ -55,17 +55,69 @@ beforeEach(() => {
         cy.get('.bm-menu-wrap').should('be.hidden');
     })
 
-   // Add product to cart
-   it('Add a product to cart', () => {
+    // Add product to cart
+    it('Add a product to cart', () => {
         cy.visit('https://www.saucedemo.com/');
         cy.get('[data-test="username"]').type('standard_user'); 
         cy.get('[data-test="password"]').type('secret_sauce');
         cy.get('[data-test="login-button"]').click();
-        cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+        cy.contains('button', 'Add to cart').click();
+        cy.get('.shopping_cart_link').click();
 
-        cy.get('.shopping_cart_badge').should('be.visible');
+        cy.contains('button', 'Remove').should('exist');
     })
 
+    // Remove a product from cart
+    it('Remove a product from cart', () => {
+        cy.visit('https://www.saucedemo.com/');
+        cy.get('[data-test="username"]').type('standard_user'); 
+        cy.get('[data-test="password"]').type('secret_sauce');
+        cy.get('[data-test="login-button"]').click();
+        cy.contains('button', 'Add to cart').click();
+        cy.get('.shopping_cart_link').click();
+        cy.contains('button', 'Remove').click();
 
+        cy.get('.cart_item').should('not.exist');
+    })
 
+    // Checkout
+    it('Checkout functionality', () => {
+        cy.visit('https://www.saucedemo.com/');
+        cy.get('[data-test="username"]').type('standard_user'); 
+        cy.get('[data-test="password"]').type('secret_sauce');
+        cy.get('[data-test="login-button"]').click();
+        cy.contains('button', 'Add to cart').click();
+        cy.get('.shopping_cart_link').click();
+        cy.get('[data-test="checkout"]').click();
+        cy.get('[data-test="firstName"]').type('Automation');
+        cy.get('[data-test="lastName"]').type('Tester');
+        cy.get('[data-test="postalCode"]').type('123456');
+        cy.contains('input', 'Continue').click();
+        cy.contains('button', 'Finish').click();
+
+        cy.get('.complete-header').should('be.visible');
+    })
+
+    // Product description
+    it('Product description is present', () => {
+        cy.visit('https://www.saucedemo.com/');
+        cy.get('[data-test="username"]').type('standard_user'); 
+        cy.get('[data-test="password"]').type('secret_sauce');
+        cy.get('[data-test="login-button"]').click();
+        cy.get('#item_5_img_link').click();
+
+        cy.get('.inventory_details_desc').should('exist');
+    })
+
+    // Back to products button
+    it('Back to products button', () => {
+        cy.visit('https://www.saucedemo.com/');
+        cy.get('[data-test="username"]').type('standard_user'); 
+        cy.get('[data-test="password"]').type('secret_sauce');
+        cy.get('[data-test="login-button"]').click();
+        cy.get('#item_5_img_link').click();
+        cy.get('[data-test="back-to-products"]').click();
+
+        cy.url().should('include', '/inventory.html')
+    })
 })
