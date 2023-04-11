@@ -1,4 +1,4 @@
-describe('Teste LinkedIn', () => {
+describe('Linkedin Tests', () => {
 
     it('Users can login', () => {
         cy.visit('https://www.linkedin.com/')
