@@ -13,7 +13,7 @@ npm install
 ## Running Tests
 To run the tests, use the following command:
 ```
-npx open cypress
+npx cypress open
 ```
 This will launch the Cypress test runner, which will allow you to select which tests to run and view the results.
 
